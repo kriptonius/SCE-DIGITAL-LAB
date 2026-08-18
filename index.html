@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Estrada Builds</title>
+<meta name="description" content="Centro de descargas de apps y builds de Estrada Co.">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<meta name="theme-color" content="#0B0D10">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #0B0D10;
+    --bg-raised: #14171c;
+    --line: #232830;
+    --coral: #FF6B4A;
+    --text: #E7E9EC;
+    --text-dim: #8B929C;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:'IBM Plex Mono',monospace;
+    min-height:100vh;
+  }
+  header{
+    padding:48px 20px 28px;
+    max-width:720px;
+    margin:0 auto;
+  }
+  .eyebrow{
+    font-size:13px;
+    color:var(--coral);
+    letter-spacing:.06em;
+  }
+  h1{
+    font-family:'Space Grotesk',sans-serif;
+    font-weight:700;
+    font-size:clamp(28px,6vw,40px);
+    margin:8px 0 6px;
+    line-height:1.15;
+  }
+  .cursor{
+    display:inline-block;
+    width:10px;height:1.1em;
+    background:var(--coral);
+    margin-left:4px;
+    vertical-align:-2px;
+    animation:blink 1s steps(1) infinite;
+  }
+  @keyframes blink{50%{opacity:0;}}
+  p.sub{
+    color:var(--text-dim);
+    font-size:14px;
+    max-width:46ch;
+    line-height:1.6;
+    margin:0;
+  }
+  main{
+    max-width:720px;
+    margin:0 auto;
+    padding:0 20px 60px;
+  }
+  .list{
+    border:1px solid var(--line);
+    border-radius:10px;
+    overflow:hidden;
+  }
+  .item{
+    display:flex;
+    align-items:flex-start;
+    gap:14px;
+    padding:20px;
+    border-bottom:1px solid var(--line);
+    background:var(--bg-raised);
+  }
+  .item:last-child{border-bottom:none;}
+  .prompt{
+    color:var(--coral);
+    font-weight:600;
+    flex-shrink:0;
+    padding-top:2px;
+  }
+  .item-body{flex:1;min-width:0;}
+  .item-name{
+    font-family:'Space Grotesk',sans-serif;
+    font-weight:700;
+    font-size:17px;
+    color:var(--text);
+  }
+  .item-meta{
+    color:var(--text-dim);
+    font-size:12px;
+    margin-top:2px;
+  }
+  .item-desc{
+    color:var(--text-dim);
+    font-size:13px;
+    margin-top:8px;
+    line-height:1.5;
+  }
+  .dl{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    margin-top:14px;
+    padding:9px 16px;
+    background:var(--coral);
+    color:#1a0d08;
+    text-decoration:none;
+    border-radius:6px;
+    font-size:13px;
+    font-weight:600;
+    font-family:'IBM Plex Mono',monospace;
+  }
+  .dl:active{transform:translateY(1px);}
+  .empty{
+    padding:40px 20px;
+    text-align:center;
+    color:var(--text-dim);
+    font-size:13px;
+  }
+  footer{
+    max-width:720px;
+    margin:0 auto;
+    padding:0 20px 40px;
+    color:var(--text-dim);
+    font-size:12px;
+  }
+  footer a{color:var(--text-dim);}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="eyebrow">estrada co. / builds</div>
+  <h1>./descargas<span class="cursor"></span></h1>
+  <p class="sub">Apps y artifacts listos para instalar. Toca "descargar" y confirma la instalación desde tu celular.</p>
+</header>
+
+<main>
+  <div class="list" id="list"></div>
+</main>
+
+<footer>
+  Estrada Co. — actualizado a mano en <code>APPS[]</code> dentro de index.html
+</footer>
+
+<script>
+  // Edita esta lista para agregar/actualizar apps. Cada build va como un objeto.
+  const APPS = [
+    {
+      name: "Junta",
+      version: "v1.0.0",
+      platform: "Android · APK",
+      size: "—",
+      desc: "Organiza planes y eventos con amigos: crea juntas, invita por WhatsApp y marca asistencia.",
+      url: "#" // reemplaza con el link del APK (ideal: GitHub Releases)
+    }
+  ];
+
+  const list = document.getElementById('list');
+
+  if (APPS.length === 0) {
+    list.innerHTML = '<div class="empty">Todavía no hay builds publicados.</div>';
+  } else {
+    list.innerHTML = APPS.map(app => `
+      <div class="item">
+        <div class="prompt">$</div>
+        <div class="item-body">
+          <div class="item-name">${app.name} <span style="color:var(--text-dim);font-weight:400;">${app.version}</span></div>
+          <div class="item-meta">${app.platform}${app.size !== "—" ? " · " + app.size : ""}</div>
+          <div class="item-desc">${app.desc}</div>
+          <a class="dl" href="${app.url}" download>descargar &darr;</a>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('sw.js').catch(() => {});
+    });
+  }
+</script>
+
+</body>
+</html>
