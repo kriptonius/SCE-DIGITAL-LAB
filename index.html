@@ -1,192 +1,120 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Estrada Builds</title>
-<meta name="description" content="Centro de descargas de apps y builds de Estrada Co.">
-<link rel="manifest" href="manifest.json">
-<link rel="icon" href="icon.svg" type="image/svg+xml">
-<meta name="theme-color" content="#0B0D10">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-<style>
-  :root{
-    --bg: #0B0D10;
-    --bg-raised: #14171c;
-    --line: #232830;
-    --coral: #FF6B4A;
-    --text: #E7E9EC;
-    --text-dim: #8B929C;
-  }
-  *{box-sizing:border-box;}
-  body{
-    margin:0;
-    background:var(--bg);
-    color:var(--text);
-    font-family:'IBM Plex Mono',monospace;
-    min-height:100vh;
-  }
-  header{
-    padding:48px 20px 28px;
-    max-width:720px;
-    margin:0 auto;
-  }
-  .eyebrow{
-    font-size:13px;
-    color:var(--coral);
-    letter-spacing:.06em;
-  }
-  h1{
-    font-family:'Space Grotesk',sans-serif;
-    font-weight:700;
-    font-size:clamp(28px,6vw,40px);
-    margin:8px 0 6px;
-    line-height:1.15;
-  }
-  .cursor{
-    display:inline-block;
-    width:10px;height:1.1em;
-    background:var(--coral);
-    margin-left:4px;
-    vertical-align:-2px;
-    animation:blink 1s steps(1) infinite;
-  }
-  @keyframes blink{50%{opacity:0;}}
-  p.sub{
-    color:var(--text-dim);
-    font-size:14px;
-    max-width:46ch;
-    line-height:1.6;
-    margin:0;
-  }
-  main{
-    max-width:720px;
-    margin:0 auto;
-    padding:0 20px 60px;
-  }
-  .list{
-    border:1px solid var(--line);
-    border-radius:10px;
-    overflow:hidden;
-  }
-  .item{
-    display:flex;
-    align-items:flex-start;
-    gap:14px;
-    padding:20px;
-    border-bottom:1px solid var(--line);
-    background:var(--bg-raised);
-  }
-  .item:last-child{border-bottom:none;}
-  .prompt{
-    color:var(--coral);
-    font-weight:600;
-    flex-shrink:0;
-    padding-top:2px;
-  }
-  .item-body{flex:1;min-width:0;}
-  .item-name{
-    font-family:'Space Grotesk',sans-serif;
-    font-weight:700;
-    font-size:17px;
-    color:var(--text);
-  }
-  .item-meta{
-    color:var(--text-dim);
-    font-size:12px;
-    margin-top:2px;
-  }
-  .item-desc{
-    color:var(--text-dim);
-    font-size:13px;
-    margin-top:8px;
-    line-height:1.5;
-  }
-  .dl{
-    display:inline-flex;
-    align-items:center;
-    gap:8px;
-    margin-top:14px;
-    padding:9px 16px;
-    background:var(--coral);
-    color:#1a0d08;
-    text-decoration:none;
-    border-radius:6px;
-    font-size:13px;
-    font-weight:600;
-    font-family:'IBM Plex Mono',monospace;
-  }
-  .dl:active{transform:translateY(1px);}
-  .empty{
-    padding:40px 20px;
-    text-align:center;
-    color:var(--text-dim);
-    font-size:13px;
-  }
-  footer{
-    max-width:720px;
-    margin:0 auto;
-    padding:0 20px 40px;
-    color:var(--text-dim);
-    font-size:12px;
-  }
-  footer a{color:var(--text-dim);}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JUNTA ⚡ Organiza tus planes</title>
+  <style>
+    * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+    body { background-color: #131A24; color: #F3F4F6; margin: 0; padding: 24px; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; }
+    .container { width: 100%; max-width: 420px; }
+    .header { text-align: center; margin-bottom: 24px; }
+    .header h1 { font-size: 36px; font-weight: 900; margin: 0; color: #F3F4F6; }
+    .header p { color: #9CA3AF; margin-top: 6px; font-size: 14px; }
+    .card { background: #1F2733; padding: 20px; border-radius: 16px; margin-bottom: 16px; border: 1px solid #2D3748; }
+    .card-title { font-size: 20px; font-weight: bold; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+    .info-row { margin-bottom: 8px; color: #9CA3AF; font-size: 15px; }
+    .info-row strong { color: #F3F4F6; }
+    .btn { display: flex; align-items: center; justify-content: center; width: 100%; padding: 16px; background: #8B5CF6; color: white; border: none; border-radius: 12px; font-weight: bold; text-decoration: none; font-size: 15px; cursor: pointer; text-align: center; transition: background 0.2s; }
+    .btn:hover { background: #7C3AED; }
+    .btn-secondary { background: #1F2733; color: #A78BFA; border: 1px solid #8B5CF6; margin-top: 10px; }
+    .badge { background: #10B981; color: white; font-size: 11px; padding: 4px 8px; border-radius: 6px; font-weight: bold; text-transform: uppercase; }
+    .loading { text-align: center; padding: 20px; color: #9CA3AF; }
+  </style>
 </head>
 <body>
 
-<header>
-  <div class="eyebrow">estrada co. / builds</div>
-  <h1>./descargas<span class="cursor"></span></h1>
-  <p class="sub">Apps y artifacts listos para instalar. Toca "descargar" y confirma la instalación desde tu celular.</p>
-</header>
+  <div class="container">
+    <div class="header">
+      <h1>JUNTA ⚡</h1>
+      <p>Dejen el chat. Armen el plan.</p>
+    </div>
 
-<main>
-  <div class="list" id="list"></div>
-</main>
-
-<footer>
-  Estrada Co. — actualizado a mano en <code>APPS[]</code> dentro de index.html
-</footer>
-
-<script>
-  // Edita esta lista para agregar/actualizar apps. Cada build va como un objeto.
-  const APPS = [
-    {
-      name: "Junta",
-      version: "v1.7.0",
-      platform: "Android · APK",
-      size: "27 MB",
-      desc: "Organiza planes y eventos con amigos: crea juntas, invita por WhatsApp y marca asistencia.",
-      url: "https://github.com/kriptonius/SCE-DIGITAL-LAB/releases/latest/download/JUNTA.apk"
-    }
-  ];
-
-  const list = document.getElementById('list');
-
-  if (APPS.length === 0) {
-    list.innerHTML = '<div class="empty">Todavía no hay builds publicados.</div>';
-  } else {
-    list.innerHTML = APPS.map(app => `
-      <div class="item">
-        <div class="prompt">$</div>
-        <div class="item-body">
-          <div class="item-name">${app.name} <span style="color:var(--text-dim);font-weight:400;">${app.version}</span></div>
-          <div class="item-meta">${app.platform}${app.size !== "—" ? " · " + app.size : ""}</div>
-          <div class="item-desc">${app.desc}</div>
-          <a class="dl" href="${app.url}" download>descargar &darr;</a>
+    <!-- Contenedor dinámico de la Junta -->
+    <div id="junta-card" class="card" style="display: none;">
+      <div id="loading-state" class="loading">Cargando datos del evento...</div>
+      
+      <div id="content-state" style="display: none;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+          <span class="badge">Invitación</span>
+          <span id="junta-codigo" style="font-family: monospace; color: #A78BFA; font-weight: bold;"></span>
         </div>
+        <div id="junta-nombre" class="card-title"></div>
+        <div class="info-row">📅 Fecha: <strong id="junta-fecha"></strong></div>
+        <div class="info-row">🕐 Hora: <strong id="junta-hora"></strong></div>
+        <div class="info-row">💰 Presupuesto: <strong id="junta-presupuesto"></strong></div>
+        <div class="info-row">👑 Organiza: <strong id="junta-organiza"></strong></div>
+        
+        <a id="btn-app" href="#" class="btn" style="margin-top: 16px;">ABRIR EN LA APP Y CONFIRMAR</a>
       </div>
-    `).join('');
-  }
+    </div>
 
-  if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-      navigator.serviceWorker.register('sw.js').catch(() => {});
-    });
-  }
-</script>
+    <!-- Sección de Descarga -->
+    <div class="card" style="text-align: center;">
+      <h3 style="margin-top: 0;">Obtener App Junta</h3>
+      <p style="color: #9CA3AF; font-size: 14px; margin-bottom: 16px;">Instala la aplicación para Android para crear tus propias juntas y confirmar asistencia.</p>
+      <a href="./app-release.apk" class="btn btn-secondary">Descargar APK v1.8.0</a>
+    </div>
+  </div>
 
+  <script>
+    // Coloca el ID exacto de tu proyecto de Firebase
+    const FIREBASE_PROJECT_ID = "TU_FIREBASE_PROJECT_ID"; 
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const code = urlParams.get('code');
+
+    if (code) {
+      const juntaCard = document.getElementById('junta-card');
+      const loadingState = document.getElementById('loading-state');
+      const contentState = document.getElementById('content-state');
+      
+      juntaCard.style.display = 'block';
+
+      // Consulta a Firestore usando la API REST pública
+      fetch(`https://firestore.googleapis.com/v1/projects/${FIREBASE_PROJECT_ID}/databases/(default)/documents:runQuery`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          structuredQuery: {
+            from: [{ collectionId: 'juntas' }],
+            where: {
+              fieldFilter: {
+                field: { fieldPath: 'codigo' },
+                op: 'EQUAL',
+                value: { stringValue: code.toUpperCase() }
+              }
+            },
+            limit: 1
+          }
+        })
+      })
+      .then(res => res.json())
+      .then(data => {
+        loadingState.style.display = 'none';
+
+        if (data && data[0] && data[0].document) {
+          const fields = data[0].document.fields;
+          
+          document.getElementById('junta-codigo').innerText = fields.codigo?.stringValue || code;
+          document.getElementById('junta-nombre').innerText = `${fields.emoji?.stringValue || '🎉'} ${fields.nombre?.stringValue || 'Junta'}`;
+          document.getElementById('junta-fecha').innerText = fields.fecha?.stringValue || 'Por definir';
+          document.getElementById('junta-hora').innerText = fields.hora?.stringValue || 'Por definir';
+          document.getElementById('junta-presupuesto').innerText = `S/${fields.presMin?.integerValue || 0} - S/${fields.presMax?.integerValue || 0}`;
+          document.getElementById('junta-organiza').innerText = fields.creadorNombre?.stringValue || fields.creador?.stringValue || 'Amigo';
+
+          contentState.style.display = 'block';
+        } else {
+          loadingState.innerText = "❌ No se encontró la junta especificada o ya expiró.";
+          loadingState.style.display = 'block';
+        }
+      })
+      .catch(err => {
+        console.error(err);
+        loadingState.innerText = "Error al obtener los detalles del evento.";
+        loadingState.style.display = 'block';
+      });
+    }
+  </script>
 </body>
 </html>
