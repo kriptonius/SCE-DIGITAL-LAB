@@ -168,7 +168,8 @@
       size: "—",
       desc: "Radio Player y Media Hub: radios en vivo, música, video y TV en vivo. Ábrela y toca INSTALAR, o usa ⋮ → Agregar a pantalla de inicio.",
       url: "https://leonvexstudio.netlify.app/",
-      web: true
+      web: true,
+      autoinstall: true
     }
   ];
 
@@ -185,12 +186,25 @@
           <div class="item-meta">${app.platform}${app.size !== "—" ? " · " + app.size : ""}</div>
           <div class="item-desc">${app.desc}</div>
           ${app.web
-            ? `<a class="dl" href="${app.url}" target="_blank" rel="noopener">abrir e instalar &rarr;</a>`
+            ? `<a class="dl" href="${app.url}${app.autoinstall ? (app.url.includes('?') ? '&' : '?') + 'install=1' : ''}" target="_blank" rel="noopener"${app.autoinstall ? ` data-install="${app.url}"` : ''}>${app.autoinstall ? 'instalar app' : 'abrir'} &rarr;</a>`
             : `<a class="dl" href="${app.url}" download>descargar &darr;</a>`}
         </div>
       </div>
     `).join('');
   }
+
+  // Apps con autoinstall: si el navegador soporta la Web Install API, instala directo
+  // desde aquí; si no, abre la web con ?install=1 (el fallback del href).
+  list.addEventListener('click', async (ev) => {
+    const a = ev.target.closest('a[data-install]');
+    if (!a || typeof navigator.install !== 'function') return;
+    ev.preventDefault();
+    try {
+      await navigator.install(a.dataset.install);
+    } catch (e) {
+      window.open(a.href, '_blank', 'noopener');
+    }
+  });
 
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
